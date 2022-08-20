@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.Utilities
+package com.tutorial.tvshowsapp.utilities
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.Network
+package com.tutorial.tvshowsapp.network
 
 import com.tutorial.tvshowsapp.models.TVShowsResponse
 import retrofit2.Call

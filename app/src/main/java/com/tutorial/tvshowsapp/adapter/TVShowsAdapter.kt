@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.Adapter
+package com.tutorial.tvshowsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

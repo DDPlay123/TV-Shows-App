@@ -1,10 +1,10 @@
-package com.tutorial.tvshowsapp.ViewModel
+package com.tutorial.tvshowsapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.tutorial.tvshowsapp.models.TVShowsResponse
-import com.tutorial.tvshowsapp.Repositiories.MostPopularTVShowsRepository
+import com.tutorial.tvshowsapp.repositories.MostPopularTVShowsRepository
 
 class MostPopularTVShowsViewModel(application: Application): AndroidViewModel(application) {
 
