@@ -1,4 +1,4 @@
-# TV Shows App 使用 MVVM 架構
+# 練習使用 MVVM 架構
 
 ### API：Episodate TV Shows API
 
