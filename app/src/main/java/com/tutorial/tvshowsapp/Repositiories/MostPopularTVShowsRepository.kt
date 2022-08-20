@@ -3,7 +3,7 @@ package com.tutorial.tvshowsapp.Repositiories
 import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.tutorial.tvshowsapp.Models.TVShowsResponse
+import com.tutorial.tvshowsapp.models.TVShowsResponse
 import com.tutorial.tvshowsapp.Network.ApiClient
 import com.tutorial.tvshowsapp.Network.ApiService
 import retrofit2.Call

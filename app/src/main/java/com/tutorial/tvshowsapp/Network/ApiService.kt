@@ -1,6 +1,6 @@
 package com.tutorial.tvshowsapp.Network
 
-import com.tutorial.tvshowsapp.Models.TVShowsResponse
+import com.tutorial.tvshowsapp.models.TVShowsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

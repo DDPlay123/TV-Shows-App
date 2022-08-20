@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.Models
+package com.tutorial.tvshowsapp.models
 
 import com.google.gson.annotations.SerializedName
 
