@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.adapter
+package com.tutorial.tvshowsapp.adapter.tvShows
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,13 +12,10 @@ import com.tutorial.tvshowsapp.databinding.ItemContainerTvShowsBinding
 class TVShowsAdapter(private val tvShows: MutableList<TVShows>, private val tvShowsListener: TVShowsListener)
     : RecyclerView.Adapter<TVShowsAdapter.TVShowViewHolder>() {
 
-    private lateinit var layoutInflater: LayoutInflater
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
-        layoutInflater = LayoutInflater.from(parent.context)
         return TVShowViewHolder(
             DataBindingUtil.inflate<ViewDataBinding>(
-                layoutInflater,
+                LayoutInflater.from(parent.context),
                 R.layout.item_container_tv_shows,
                 parent, false) as ItemContainerTvShowsBinding
         )

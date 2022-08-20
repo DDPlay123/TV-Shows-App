@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.R
-import com.tutorial.tvshowsapp.adapter.TVShowsAdapter
-import com.tutorial.tvshowsapp.adapter.TVShowsListener
+import com.tutorial.tvshowsapp.adapter.tvShows.TVShowsAdapter
+import com.tutorial.tvshowsapp.adapter.tvShows.TVShowsListener
 import com.tutorial.tvshowsapp.viewModel.MostPopularTVShowsViewModel
 import com.tutorial.tvshowsapp.databinding.ActivityMainBinding
 import com.tutorial.tvshowsapp.manager.ToastManager

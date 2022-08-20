@@ -19,11 +19,11 @@ data class TVShowDetails (
     var rating: String,
 
     @SerializedName("genres")
-    var genres: List<String>,
+    var genres: MutableList<String>,
 
     @SerializedName("pictures")
-    var pictures: List<String>,
+    var pictures: MutableList<String>,
 
     @SerializedName("episodes")
-    var episodes: List<Episodes>
+    var episodes: MutableList<Episodes>
 )

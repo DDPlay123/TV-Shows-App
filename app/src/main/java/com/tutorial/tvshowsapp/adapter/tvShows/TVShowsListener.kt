@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.adapter
+package com.tutorial.tvshowsapp.adapter.tvShows
 
 import com.tutorial.tvshowsapp.models.tvShows.TVShows
 
