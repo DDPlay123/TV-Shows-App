@@ -1,19 +1,21 @@
 package com.tutorial.tvshowsapp.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.tutorial.tvshowsapp.models.TVShows
+import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.R
 import com.tutorial.tvshowsapp.adapter.TVShowsAdapter
+import com.tutorial.tvshowsapp.adapter.TVShowsListener
 import com.tutorial.tvshowsapp.viewModel.MostPopularTVShowsViewModel
 import com.tutorial.tvshowsapp.databinding.ActivityMainBinding
 import com.tutorial.tvshowsapp.manager.ToastManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TVShowsListener {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var viewModel: MostPopularTVShowsViewModel
 
@@ -29,11 +31,22 @@ class MainActivity : AppCompatActivity() {
         doInitialization()
     }
 
+    override fun onTVShowClicked(tvShows: TVShows) {
+        val intent: Intent = Intent(applicationContext, TVShowDetailsActivity::class.java)
+        intent.putExtra("id", tvShows.id)
+        intent.putExtra("name", tvShows.name)
+        intent.putExtra("startDate", tvShows.startDate)
+        intent.putExtra("country", tvShows.country)
+        intent.putExtra("network", tvShows.network)
+        intent.putExtra("status", tvShows.status)
+        startActivity(intent)
+    }
+
     private fun doInitialization() {
         // 連接 ViewModel
         viewModel = ViewModelProvider(this)[MostPopularTVShowsViewModel::class.java]
         // 初始化 RecyclerView
-        tvShowsAdapter = TVShowsAdapter(tvShows)
+        tvShowsAdapter = TVShowsAdapter(tvShows, this)
         activityMainBinding.rvTvShows.visibility = View.VISIBLE
         activityMainBinding.rvTvShows.setHasFixedSize(true)
         activityMainBinding.rvTvShows.adapter = tvShowsAdapter
