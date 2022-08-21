@@ -63,8 +63,21 @@ class MainActivity : BaseActivity(), TVShowsAdapter.TVShowsListener {
 
     private fun setListener() {
         activityMainBinding.run {
+            imageRefresh.setOnClickListener {
+                tvShows.clear()
+                tvShowsAdapter.notifyDataSetChanged()
+                currentPage = 1
+                refreshLoad()
+                isLoading = false
+                isLoadingMore = false
+            }
+
             imageWatchList.setOnClickListener {
                 startActivity(Intent(applicationContext, WatchListActivity::class.java))
+            }
+
+            imageSearch.setOnClickListener {
+                startActivity(Intent(applicationContext, SearchActivity::class.java))
             }
         }
     }
@@ -74,6 +87,20 @@ class MainActivity : BaseActivity(), TVShowsAdapter.TVShowsListener {
         toggleLoading() // <-- 顯示 loading view
         viewModel.getMostPopularTVShows(currentPage).observe(this) { res ->
             toggleLoading() // <-- 停止 loading view
+            if (res != null) {
+                ToastManager.instance.cancelToast()
+                val oldCount = tvShows.size
+                tvShows.addAll(res.tvShows)
+                totalAvailablePages = res.totalPages
+                tvShowsAdapter.notifyItemRangeInserted(oldCount, tvShows.size)
+            }
+        }
+    }
+
+    private fun refreshLoad() {
+        // 避免 Loading 顯示錯誤
+        ToastManager.instance.showToast(this, "載入中...", true)
+        viewModel.getMostPopularTVShows(currentPage).observe(this) { res ->
             if (res != null) {
                 ToastManager.instance.cancelToast()
                 val oldCount = tvShows.size

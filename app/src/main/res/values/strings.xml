@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TV Shows App</string>
-    <string name="tv_shows_most_popular">電視節目 | 最受歡迎的</string>
+    <string name="tv_shows_most_popular">影集 | 最受歡迎的</string>
     <string name="back">返回</string>
     <string name="read_more">閱讀更多</string>
     <string name="read_less">收起</string>
@@ -8,4 +8,5 @@
     <string name="website">更多介紹</string>
     <string name="episodes">播放日期</string>
     <string name="watch_list">觀看清單</string>
+    <string name="search_tv_show">請輸入影集名稱 (英文)</string>
 </resources>
