@@ -20,6 +20,7 @@ parameter：page
 - 節目資訊
 
 Example：https://www.episodate.com/api/show-details?q=29560
+
 Example: https://www.episodate.com/api/show-details?q=arrow
 
 ```
