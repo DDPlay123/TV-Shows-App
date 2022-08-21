@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TV Shows App</string>
     <string name="tv_shows_most_popular">電視節目 | 最受歡迎的</string>
+    <string name="back">返回</string>
+    <string name="read_more">閱讀更多</string>
+    <string name="read_less">收起</string>
+    <string name="u2022">•</string>
+    <string name="website">WebSite</string>
+    <string name="episodes">Episodes</string>
 </resources>

@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/background_back_button.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/background_fading_edge.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/background_slider_indicator_active.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/background_slider_indicator_inactive.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/background_tv_show.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/ic_image_search_24.xml" value="0.219" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/drawable/ic_movie_24.xml" value="0.219" />
+        <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/layout-v26/activity_tvshow_details.xml" value="0.358695652173913" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/layout/activity_splash.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/a7032/Desktop/TV Shows App/app/src/main/res/layout/activity_tvshow_details.xml" value="0.358695652173913" />

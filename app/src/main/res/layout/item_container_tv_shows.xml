@@ -69,7 +69,7 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:fontFamily="@font/ubuntu_regular"
             android:includeFontPadding="false"
-            android:text='@{tvShow.network + "(" + tvShow.country + ")"}'
+            android:text='@{tvShow.network + " (" + tvShow.country + ")"}'
             android:textColor="@color/colorTextOther"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/tvName"

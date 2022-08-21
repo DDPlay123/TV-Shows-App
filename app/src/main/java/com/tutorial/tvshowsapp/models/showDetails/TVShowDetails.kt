@@ -19,7 +19,7 @@ data class TVShowDetails (
     var rating: String,
 
     @SerializedName("genres")
-    var genres: MutableList<String>,
+    var genres: MutableList<String>? = null,
 
     @SerializedName("pictures")
     var pictures: MutableList<String>,
