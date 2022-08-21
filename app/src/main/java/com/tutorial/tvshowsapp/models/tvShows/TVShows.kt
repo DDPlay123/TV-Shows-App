@@ -1,8 +1,13 @@
 package com.tutorial.tvshowsapp.models.tvShows
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
+@Entity(tableName = "tvShows")
 data class TVShows (
+    @PrimaryKey
     @SerializedName("id")
     var id: Int,
 
@@ -23,4 +28,4 @@ data class TVShows (
 
     @SerializedName("image_thumbnail_path")
     var thumbnail: String
-)
+): Serializable

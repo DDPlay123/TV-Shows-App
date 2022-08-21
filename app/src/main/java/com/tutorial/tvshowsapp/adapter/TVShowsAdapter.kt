@@ -1,4 +1,4 @@
-package com.tutorial.tvshowsapp.adapter.tvShows
+package com.tutorial.tvshowsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -39,5 +39,9 @@ class TVShowsAdapter(private val tvShows: MutableList<TVShows>, private val tvSh
             binding.tvShow = tvShow
             binding.executePendingBindings()
         }
+    }
+
+    interface TVShowsListener {
+        fun onTVShowClicked(tvShows: TVShows)
     }
 }

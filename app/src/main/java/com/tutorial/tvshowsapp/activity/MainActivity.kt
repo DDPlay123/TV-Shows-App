@@ -1,7 +1,6 @@
 package com.tutorial.tvshowsapp.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -9,13 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.R
-import com.tutorial.tvshowsapp.adapter.tvShows.TVShowsAdapter
-import com.tutorial.tvshowsapp.adapter.tvShows.TVShowsListener
+import com.tutorial.tvshowsapp.adapter.TVShowsAdapter
 import com.tutorial.tvshowsapp.viewModel.MostPopularTVShowsViewModel
 import com.tutorial.tvshowsapp.databinding.ActivityMainBinding
 import com.tutorial.tvshowsapp.manager.ToastManager
 
-class MainActivity : AppCompatActivity(), TVShowsListener {
+class MainActivity : BaseActivity(), TVShowsAdapter.TVShowsListener {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var viewModel: MostPopularTVShowsViewModel
 
@@ -32,13 +30,8 @@ class MainActivity : AppCompatActivity(), TVShowsListener {
     }
 
     override fun onTVShowClicked(tvShows: TVShows) {
-        val intent: Intent = Intent(applicationContext, TVShowDetailsActivity::class.java)
-        intent.putExtra("id", tvShows.id)
-        intent.putExtra("name", tvShows.name)
-        intent.putExtra("startDate", tvShows.startDate)
-        intent.putExtra("country", tvShows.country)
-        intent.putExtra("network", tvShows.network)
-        intent.putExtra("status", tvShows.status)
+        val intent = Intent(applicationContext, TVShowDetailsActivity::class.java)
+        intent.putExtra("tvShows", tvShows)
         startActivity(intent)
     }
 

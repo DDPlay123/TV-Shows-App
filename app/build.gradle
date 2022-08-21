@@ -58,8 +58,8 @@ dependencies {
     implementation "io.coil-kt:coil-base:2.1.0"
     // Lifecycle Extensions
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    // Room
-    implementation 'androidx.room:room-ktx:2.4.3'
+    // Room (支援 rxjava3 的)
+    implementation 'androidx.room:room-rxjava3:2.4.3'
     kapt 'androidx.room:room-compiler:2.4.3'
     // RxJava 3
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'

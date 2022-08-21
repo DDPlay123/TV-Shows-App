@@ -50,7 +50,7 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:fontFamily="@font/ubuntu_regular"
             android:includeFontPadding="false"
-            android:text='@{"播出日期：" + airDate}'
+            android:text='@{"播放日期：" + airDate}'
             android:textColor="@color/colorTextIcons"
             android:textSize="@dimen/_10ssp" />
 

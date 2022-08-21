@@ -2,15 +2,12 @@ package com.tutorial.tvshowsapp.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
@@ -18,7 +15,6 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tutorial.tvshowsapp.R
 import com.tutorial.tvshowsapp.adapter.EpisodesAdapter
@@ -27,12 +23,18 @@ import com.tutorial.tvshowsapp.databinding.ActivityTvshowDetailsBinding
 import com.tutorial.tvshowsapp.databinding.DialogEpisodesBottomSheetBinding
 import com.tutorial.tvshowsapp.manager.ToastManager
 import com.tutorial.tvshowsapp.models.showDetails.TVShowDetailsResponse
+import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.viewModel.TVShowDetailsViewModel
-import java.util.*
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-class TVShowDetailsActivity : AppCompatActivity() {
+class TVShowDetailsActivity : BaseActivity() {
     private lateinit var activityTVShowDetailsBinding: ActivityTvshowDetailsBinding
     private lateinit var viewModel: TVShowDetailsViewModel
+
+    private lateinit var tvShows: TVShows
 
     private lateinit var episodesBottomSheetDialog: BottomSheetDialog
     private lateinit var layoutEpisodeBinding: DialogEpisodesBottomSheetBinding
@@ -48,6 +50,7 @@ class TVShowDetailsActivity : AppCompatActivity() {
         // 連接 ViewModel
         viewModel = ViewModelProvider(this)[TVShowDetailsViewModel::class.java]
         setListener()
+        tvShows = intent.getSerializableExtra("tvShows") as TVShows
         getTVShowDetails()
     }
 
@@ -60,7 +63,7 @@ class TVShowDetailsActivity : AppCompatActivity() {
     private fun getTVShowDetails() {
         ToastManager.instance.showToast(this, "載入中...", true)
         toggleLoading()
-        val tvShowId: String = intent.getIntExtra("id", -1).toString()
+        val tvShowId: String = tvShows.id.toString()
         viewModel.getTVShowDetails(tvShowId).observe(this) { res ->
             toggleLoading()
             if (res != null) {
@@ -100,21 +103,23 @@ class TVShowDetailsActivity : AppCompatActivity() {
             else
                 "N/A"
             rating = String.format("%.2f", res.tvShowDetails.rating.toDouble())
-            runtime = "${res.tvShowDetails.runtime} Min"
+            runtime = "${res.tvShowDetails.runtime} 分鐘"
 
             viewDivider1.visibility = View.VISIBLE // 如有資料，再顯示
             viewDivider2.visibility = View.VISIBLE
             layoutMisc.visibility = View.VISIBLE
             btnWebSite.visibility = View.VISIBLE
             btnEpisodes.visibility = View.VISIBLE
+            imageWatchList.visibility = View.VISIBLE
 
-            // 按鈕功能
+            // 前往網頁
             btnWebSite.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(res.tvShowDetails.url)
                 startActivity(intent)
             }
 
+            // 查看播放日期
             btnEpisodes.setOnClickListener {
                 episodesBottomSheetDialog = BottomSheetDialog(this@TVShowDetailsActivity, R.style.BottomSheetDialogTheme)
                 layoutEpisodeBinding = DataBindingUtil.inflate(
@@ -125,7 +130,7 @@ class TVShowDetailsActivity : AppCompatActivity() {
 
                 episodesBottomSheetDialog.setContentView(layoutEpisodeBinding.root)
                 layoutEpisodeBinding.rvEpisodes.adapter = EpisodesAdapter(res.tvShowDetails.episodes)
-                layoutEpisodeBinding.tvTitle.text = "影集 | ${intent.getStringExtra("name") ?: ""}"
+                layoutEpisodeBinding.tvTitle.text = "影集 | ${tvShows.name}"
                 layoutEpisodeBinding.imageClose.setOnClickListener {
                     episodesBottomSheetDialog.dismiss()
                 }
@@ -141,6 +146,18 @@ class TVShowDetailsActivity : AppCompatActivity() {
 //                }
 
                 episodesBottomSheetDialog.show()
+            }
+
+            // 添加至觀看清單
+            imageWatchList.setOnClickListener {
+                CompositeDisposable().add(viewModel.addToWatchList(tvShows)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        imageWatchList.setImageResource(R.drawable.ic_check_24)
+                        ToastManager.instance.showToast(this@TVShowDetailsActivity, "添加成功", true)
+                    }
+                )
             }
         }
     }
@@ -163,12 +180,10 @@ class TVShowDetailsActivity : AppCompatActivity() {
 
     private fun loadBasicTVShowDetails() {
         activityTVShowDetailsBinding.run {
-            intent.extras.let {
-                tvShowName = intent.getStringExtra("name") ?: ""
-                networkCountry = "${intent.getStringExtra("network") ?: ""} (${intent.getStringExtra("country") ?: ""})"
-                status = intent.getStringExtra("status") ?: ""
-                startedDate = "Started on：${intent.getStringExtra("startDate") ?: ""}"
-            }
+            tvShowName = tvShows.name
+            networkCountry = "${tvShows.network} (${tvShows.country})"
+            status = tvShows.status
+            startedDate = "Started on：${tvShows.startDate}"
         }
     }
 
