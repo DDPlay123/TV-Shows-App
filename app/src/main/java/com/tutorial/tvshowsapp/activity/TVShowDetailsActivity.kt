@@ -46,6 +46,11 @@ class TVShowDetailsActivity : BaseActivity() {
         doInitialization()
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.closeDatabase()
+    }
+
     private fun doInitialization() {
         // 連接 ViewModel
         viewModel = ViewModelProvider(this)[TVShowDetailsViewModel::class.java]

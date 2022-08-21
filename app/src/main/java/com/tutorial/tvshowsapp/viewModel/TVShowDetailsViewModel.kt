@@ -23,15 +23,12 @@ class TVShowDetailsViewModel(application: Application): AndroidViewModel(applica
             .build()
     }
 
-    fun closeDatabase() {
+    fun closeDatabase() =
         tvShowsDatabase.close()
-    }
 
-    fun getTVShowDetails(tvShowId: String): LiveData<TVShowDetailsResponse> {
-        return tVShowDetailsRepository.getTVShowDetails(tvShowId)
-    }
+    fun getTVShowDetails(tvShowId: String): LiveData<TVShowDetailsResponse> =
+        tVShowDetailsRepository.getTVShowDetails(tvShowId)
 
-    fun addToWatchList(tvShows: TVShows): Completable {
-        return tvShowsDatabase.tvShowsDao().addToWatchList(tvShows)
-    }
+    fun addToWatchList(tvShows: TVShows): Completable =
+        tvShowsDatabase.tvShowsDao().addToWatchList(tvShows)
 }

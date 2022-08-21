@@ -55,8 +55,18 @@ class MainActivity : BaseActivity(), TVShowsAdapter.TVShowsListener {
                         ToastManager.instance.showToast(this@MainActivity, "沒有更多資料了...", true)
             }
         })
+        // 定義按鈕功能
+        setListener()
         // 取得資料
         getMostPopularTVShows()
+    }
+
+    private fun setListener() {
+        activityMainBinding.run {
+            imageWatchList.setOnClickListener {
+                startActivity(Intent(applicationContext, WatchListActivity::class.java))
+            }
+        }
     }
 
     private fun getMostPopularTVShows() {

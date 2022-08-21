@@ -31,11 +31,11 @@ abstract class BaseActivity: AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        closeDatabase()
+//        closeDatabase()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        closeDatabase()
+//        closeDatabase()
     }
 }

@@ -12,7 +12,6 @@ class MostPopularTVShowsViewModel(application: Application): AndroidViewModel(ap
         MostPopularTVShowsRepository()
     }
 
-    fun getMostPopularTVShows(page: Int): LiveData<TVShowsResponse> {
-        return mostPopularTVShowsRepository.getMostPopularTVShows(page)
-    }
+    fun getMostPopularTVShows(page: Int): LiveData<TVShowsResponse> =
+        mostPopularTVShowsRepository.getMostPopularTVShows(page)
 }
