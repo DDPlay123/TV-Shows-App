@@ -11,9 +11,12 @@ interface TVShowsDao {
     @Query("SELECT * FROM tvShows")
     fun getWatchList(): Flowable<MutableList<TVShows>>
 
+    @Query("SELECT * FROM tvShows WHERE id = :tvShowId")
+    fun getTVShowFromWatchList(tvShowId: String): Flowable<TVShows>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToWatchList(tvShow: TVShows): Completable
 
     @Delete
-    fun removeFromWatchList(tvShow: TVShows)
+    fun removeFromWatchList(tvShow: TVShows): Completable
 }

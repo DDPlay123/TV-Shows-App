@@ -10,6 +10,7 @@ import com.tutorial.tvshowsapp.repositories.TVShowDetailsRepository
 import com.tutorial.tvshowsapp.room.TVShowsDatabase
 import com.tutorial.tvshowsapp.utilities.TVShows_Database
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
 
 class TVShowDetailsViewModel(application: Application): AndroidViewModel(application) {
 
@@ -31,4 +32,10 @@ class TVShowDetailsViewModel(application: Application): AndroidViewModel(applica
 
     fun addToWatchList(tvShows: TVShows): Completable =
         tvShowsDatabase.tvShowsDao().addToWatchList(tvShows)
+
+    fun getTVShowFromWatchList(tvShowId: String): Flowable<TVShows> =
+        tvShowsDatabase.tvShowsDao().getTVShowFromWatchList(tvShowId)
+
+    fun removeTVShowFromWatchList(tvShows: TVShows): Completable =
+        tvShowsDatabase.tvShowsDao().removeFromWatchList(tvShows)
 }

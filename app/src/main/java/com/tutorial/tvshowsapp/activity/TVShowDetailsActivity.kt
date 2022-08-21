@@ -24,6 +24,7 @@ import com.tutorial.tvshowsapp.databinding.DialogEpisodesBottomSheetBinding
 import com.tutorial.tvshowsapp.manager.ToastManager
 import com.tutorial.tvshowsapp.models.showDetails.TVShowDetailsResponse
 import com.tutorial.tvshowsapp.models.tvShows.TVShows
+import com.tutorial.tvshowsapp.utilities.IS_WATCH_LIST_UPDATED
 import com.tutorial.tvshowsapp.viewModel.TVShowDetailsViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
@@ -35,6 +36,7 @@ class TVShowDetailsActivity : BaseActivity() {
     private lateinit var viewModel: TVShowDetailsViewModel
 
     private lateinit var tvShows: TVShows
+    private var isTVShowAvailableInWatchList: Boolean = false
 
     private lateinit var episodesBottomSheetDialog: BottomSheetDialog
     private lateinit var layoutEpisodeBinding: DialogEpisodesBottomSheetBinding
@@ -54,9 +56,25 @@ class TVShowDetailsActivity : BaseActivity() {
     private fun doInitialization() {
         // 連接 ViewModel
         viewModel = ViewModelProvider(this)[TVShowDetailsViewModel::class.java]
-        setListener()
         tvShows = intent.getSerializableExtra("tvShows") as TVShows
+        setListener()
+        checkTVShowInWatchList()
         getTVShowDetails()
+    }
+
+    private fun checkTVShowInWatchList() {
+        val compositeDisposable = CompositeDisposable()
+
+        compositeDisposable.add(viewModel.getTVShowFromWatchList(tvShows.id.toString())
+            .observeOn(Schedulers.computation()) // Background Thread
+            .observeOn(AndroidSchedulers.mainThread()) // Main Thread
+            .subscribe {
+                isTVShowAvailableInWatchList = true
+                activityTVShowDetailsBinding.imageWatchList.setImageResource(R.drawable.ic_check_24)
+
+                compositeDisposable.dispose() // 解除訂閱
+            }
+        )
     }
 
     private fun setListener() {
@@ -155,14 +173,38 @@ class TVShowDetailsActivity : BaseActivity() {
 
             // 添加至觀看清單
             imageWatchList.setOnClickListener {
-                CompositeDisposable().add(viewModel.addToWatchList(tvShows)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        imageWatchList.setImageResource(R.drawable.ic_check_24)
-                        ToastManager.instance.showToast(this@TVShowDetailsActivity, "添加成功", true)
-                    }
-                )
+                val compositeDisposable = CompositeDisposable()
+                if (isTVShowAvailableInWatchList) {
+                    // 刪除
+                    compositeDisposable.add(viewModel.removeTVShowFromWatchList(tvShows)
+                        .subscribeOn(Schedulers.computation()) // Background Thread
+                        .observeOn(AndroidSchedulers.mainThread()) // Main Thread
+                        .subscribe {
+                            isTVShowAvailableInWatchList = false
+                            IS_WATCH_LIST_UPDATED = true
+
+                            imageWatchList.setImageResource(R.drawable.ic_watch_list_24)
+                            ToastManager.instance.showToast(this@TVShowDetailsActivity, "刪除成功", true)
+
+                            compositeDisposable.dispose() // 解除訂閱
+                        }
+                    )
+                } else {
+                    // 添加
+                    compositeDisposable.add(viewModel.addToWatchList(tvShows)
+                        .subscribeOn(Schedulers.io()) // Background Thread
+                        .observeOn(AndroidSchedulers.mainThread()) // Main Thread
+                        .subscribe {
+                            isTVShowAvailableInWatchList = true
+                            IS_WATCH_LIST_UPDATED = true
+
+                            imageWatchList.setImageResource(R.drawable.ic_check_24)
+                            ToastManager.instance.showToast(this@TVShowDetailsActivity, "添加成功", true)
+
+                            compositeDisposable.dispose() // 解除訂閱
+                        }
+                    )
+                }
             }
         }
     }

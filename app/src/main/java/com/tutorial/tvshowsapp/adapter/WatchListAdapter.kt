@@ -1,6 +1,7 @@
 package com.tutorial.tvshowsapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -9,11 +10,11 @@ import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.R
 import com.tutorial.tvshowsapp.databinding.ItemContainerTvShowsBinding
 
-class TVShowsAdapter(private val tvShows: MutableList<TVShows>, private val tvShowsListener: TVShowsListener)
-    : RecyclerView.Adapter<TVShowsAdapter.TVShowViewHolder>() {
+class WatchListAdapter(private val tvShows: MutableList<TVShows>, private val watchListListener: WatchListListener)
+    : RecyclerView.Adapter<WatchListAdapter.WatchListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
-        return TVShowViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchListViewHolder {
+        return WatchListViewHolder(
             DataBindingUtil.inflate<ViewDataBinding>(
                 LayoutInflater.from(parent.context),
                 R.layout.item_container_tv_shows,
@@ -21,27 +22,32 @@ class TVShowsAdapter(private val tvShows: MutableList<TVShows>, private val tvSh
         )
     }
 
-    override fun onBindViewHolder(holder: TVShowViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WatchListViewHolder, position: Int) {
         holder.bindTVShow(tvShows[position])
         holder.binding.root.setOnClickListener {
-            tvShowsListener.onTVShowClicked(tvShows[position])
+            watchListListener.onTVShowClicked(tvShows[position])
+        }
+        holder.binding.imageDelete.setOnClickListener {
+            watchListListener.removeTVShowFromWatchList(tvShows[position], position)
         }
     }
 
     override fun getItemCount(): Int = tvShows.size
 
-    class TVShowViewHolder(itemView: ItemContainerTvShowsBinding)
+    class WatchListViewHolder(itemView: ItemContainerTvShowsBinding)
         : RecyclerView.ViewHolder(itemView.root) {
 
         val binding: ItemContainerTvShowsBinding = itemView
 
         fun bindTVShow(tvShow: TVShows) {
             binding.tvShow = tvShow
+            binding.imageDelete.visibility = View.VISIBLE
             binding.executePendingBindings() // 即時更新
         }
     }
 
-    interface TVShowsListener {
+    interface WatchListListener {
         fun onTVShowClicked(tvShows: TVShows)
+        fun removeTVShowFromWatchList(tvShow: TVShows, position: Int)
     }
 }

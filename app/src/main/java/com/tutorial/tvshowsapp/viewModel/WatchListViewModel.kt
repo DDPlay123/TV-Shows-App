@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.tutorial.tvshowsapp.models.tvShows.TVShows
 import com.tutorial.tvshowsapp.room.TVShowsDatabase
 import com.tutorial.tvshowsapp.utilities.TVShows_Database
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
 class WatchListViewModel(application: Application): AndroidViewModel(application) {
@@ -16,6 +17,12 @@ class WatchListViewModel(application: Application): AndroidViewModel(application
             .build()
     }
 
+    fun closeDatabase() =
+        tvShowsDatabase.close()
+
     fun loadWatchList(): Flowable<MutableList<TVShows>> =
         tvShowsDatabase.tvShowsDao().getWatchList()
+
+    fun removeTVShowFromWatchList(tvShows: TVShows): Completable =
+        tvShowsDatabase.tvShowsDao().removeFromWatchList(tvShows)
 }
