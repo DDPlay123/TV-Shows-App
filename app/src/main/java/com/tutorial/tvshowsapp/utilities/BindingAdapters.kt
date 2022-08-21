@@ -13,10 +13,14 @@ class BindingAdapters {
         @kotlin.jvm.JvmStatic
         fun setImageURL(imageView: ImageView, URL: String?) {
             try {
-                imageView.load(URL) {
-                    placeholder(R.mipmap.ic_launcher)
-                    error(R.mipmap.ic_launcher)
-                }
+                if (URL != null) {
+                    imageView.load(URL) {
+                        placeholder(R.mipmap.ic_launcher)
+                        error(R.mipmap.ic_launcher)
+                    }
+                    imageView.visibility = View.VISIBLE
+                } else
+                    imageView.visibility = View.INVISIBLE
             } catch (ignored: Exception) { }
         }
 

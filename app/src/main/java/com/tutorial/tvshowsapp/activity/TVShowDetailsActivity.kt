@@ -1,12 +1,16 @@
 package com.tutorial.tvshowsapp.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
@@ -14,9 +18,13 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tutorial.tvshowsapp.R
+import com.tutorial.tvshowsapp.adapter.EpisodesAdapter
 import com.tutorial.tvshowsapp.adapter.ImageSliderAdapter
 import com.tutorial.tvshowsapp.databinding.ActivityTvshowDetailsBinding
+import com.tutorial.tvshowsapp.databinding.DialogEpisodesBottomSheetBinding
 import com.tutorial.tvshowsapp.manager.ToastManager
 import com.tutorial.tvshowsapp.models.showDetails.TVShowDetailsResponse
 import com.tutorial.tvshowsapp.viewModel.TVShowDetailsViewModel
@@ -25,6 +33,9 @@ import java.util.*
 class TVShowDetailsActivity : AppCompatActivity() {
     private lateinit var activityTVShowDetailsBinding: ActivityTvshowDetailsBinding
     private lateinit var viewModel: TVShowDetailsViewModel
+
+    private lateinit var episodesBottomSheetDialog: BottomSheetDialog
+    private lateinit var layoutEpisodeBinding: DialogEpisodesBottomSheetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,17 +71,11 @@ class TVShowDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun toggleLoading() {
-        // 控制 loading
-        activityTVShowDetailsBinding.isLoading =
-            !(activityTVShowDetailsBinding.isLoading != null && activityTVShowDetailsBinding.isLoading == true)
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun setupDetails(res: TVShowDetailsResponse) {
         activityTVShowDetailsBinding.run {
             // 圖片資源
             tvShowImageURL = res.tvShowDetails.imagePath
-            imageTVShow.visibility = View.VISIBLE
             // 基本資訊
             loadBasicTVShowDetails()
             // 描述訊息
@@ -96,17 +101,47 @@ class TVShowDetailsActivity : AppCompatActivity() {
                 "N/A"
             rating = String.format("%.2f", res.tvShowDetails.rating.toDouble())
             runtime = "${res.tvShowDetails.runtime} Min"
+
             viewDivider1.visibility = View.VISIBLE // 如有資料，再顯示
             viewDivider2.visibility = View.VISIBLE
             layoutMisc.visibility = View.VISIBLE
+            btnWebSite.visibility = View.VISIBLE
+            btnEpisodes.visibility = View.VISIBLE
+
             // 按鈕功能
             btnWebSite.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(res.tvShowDetails.url)
                 startActivity(intent)
             }
-            btnWebSite.visibility = View.VISIBLE
-            btnEpisodes.visibility = View.VISIBLE
+
+            btnEpisodes.setOnClickListener {
+                episodesBottomSheetDialog = BottomSheetDialog(this@TVShowDetailsActivity, R.style.BottomSheetDialogTheme)
+                layoutEpisodeBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(this@TVShowDetailsActivity),
+                    R.layout.dialog_episodes_bottom_sheet,
+                    findViewById(R.id.episodesContainer), false
+                )
+
+                episodesBottomSheetDialog.setContentView(layoutEpisodeBinding.root)
+                layoutEpisodeBinding.rvEpisodes.adapter = EpisodesAdapter(res.tvShowDetails.episodes)
+                layoutEpisodeBinding.tvTitle.text = "影集 | ${intent.getStringExtra("name") ?: ""}"
+                layoutEpisodeBinding.imageClose.setOnClickListener {
+                    episodesBottomSheetDialog.dismiss()
+                }
+
+                // 預設完全展開用
+//                val frameLayout: FrameLayout? = episodesBottomSheetDialog.findViewById(
+//                    com.google.android.material.R.id.design_bottom_sheet
+//                )
+//                if (frameLayout != null) {
+//                    val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(frameLayout)
+//                    bottomSheetBehavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
+//                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                }
+
+                episodesBottomSheetDialog.show()
+            }
         }
     }
 
@@ -135,6 +170,12 @@ class TVShowDetailsActivity : AppCompatActivity() {
                 startedDate = "Started on：${intent.getStringExtra("startDate") ?: ""}"
             }
         }
+    }
+
+    private fun toggleLoading() {
+        // 控制 loading
+        activityTVShowDetailsBinding.isLoading =
+            !(activityTVShowDetailsBinding.isLoading != null && activityTVShowDetailsBinding.isLoading == true)
     }
 
     private fun setupSliderIndicators(count: Int) {
