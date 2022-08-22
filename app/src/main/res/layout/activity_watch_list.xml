@@ -37,20 +37,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_back_button"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center_vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
-                    android:src="@drawable/ic_back_24"
                     android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_back_24"
                     android:tint="@color/colorTextIcons" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu_regular"
                     android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/ubuntu_regular"
                     android:text="@string/back"
                     android:textColor="@color/colorTextIcons"
                     android:textSize="@dimen/_12ssp" />
@@ -83,8 +84,8 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-            tools:visibility="visible"
-            tools:listitem="@layout/item_container_tv_shows"/>
+            tools:listitem="@layout/item_container_tv_shows"
+            tools:visibility="visible" />
 
         <ProgressBar
             android:layout_width="@dimen/_25sdp"
@@ -94,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

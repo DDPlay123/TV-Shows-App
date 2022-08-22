@@ -41,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_back_button"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center_vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -83,6 +84,7 @@
                 android:id="@+id/imageSearch"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/_2sdp"
                 android:src="@drawable/ic_search_24"

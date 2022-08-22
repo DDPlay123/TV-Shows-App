@@ -387,6 +387,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:background="@drawable/background_back_button"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -431,6 +432,7 @@
             android:src="@drawable/ic_watch_list_24"
             android:tint="@color/colorTextIcons"
             android:visibility="gone"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:visibility="visible" />
