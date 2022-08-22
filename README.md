@@ -1,4 +1,4 @@
-# 練習使用 MVVM 架構
+# 練習使用 MVVM 架構 + Data Binding
 
 ### API：Episodate TV Shows API
 
